@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/ghl-core" },
+    { "path": "packages/mcp-ghl-api" },
+    { "path": "apps/bot-telegram" }
+  ]
+}

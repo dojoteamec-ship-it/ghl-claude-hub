@@ -1,0 +1,14 @@
+{
+  "name": "@ghl-hub/mcp-ghl-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Servidor MCP local (stdio) que expone ghl-core a Claude Code con selector de subcuenta.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@ghl-hub/ghl-core": "workspace:*"
+  }
+}

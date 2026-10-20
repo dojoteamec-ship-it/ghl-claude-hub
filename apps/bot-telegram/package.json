@@ -1,0 +1,14 @@
+{
+  "name": "@ghl-hub/bot-telegram",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bot de Telegram multi-cliente sobre la API de Claude y ghl-core.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@ghl-hub/ghl-core": "workspace:*"
+  }
+}

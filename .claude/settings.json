@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.local)",
+      "Read(./.env.*.local)",
+      "Read(./config/subcuentas.json)",
+      "Edit(./.env)",
+      "Edit(./.env.local)",
+      "Edit(./.env.*.local)",
+      "Edit(./config/subcuentas.json)",
+      "Bash(cat .env*)",
+      "Bash(cat ./.env*)",
+      "Bash(cat config/subcuentas.json)",
+      "Bash(printenv*)",
+      "Bash(env)"
+    ],
+    "ask": [],
+    "allow": [
+      "Bash(pnpm install)",
+      "Bash(pnpm build)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm test)",
+      "Bash(pnpm secretos)",
+      "Bash(pnpm verificar)"
+    ]
+  }
+}

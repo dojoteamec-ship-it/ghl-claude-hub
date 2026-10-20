@@ -1,0 +1,23 @@
+# Secretos: cualquier .env salvo la plantilla
+.env*
+!.env.example
+
+# Configuración real de subcuentas (lleva locationId de clientes)
+config/subcuentas.json
+
+# Estado local, salidas y registros
+.ghl/
+exports/
+logs/
+
+# Dependencias y artefactos de compilación
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Claude Code: ajustes personales
+.claude/settings.local.json
+
+# Sistema
+.DS_Store

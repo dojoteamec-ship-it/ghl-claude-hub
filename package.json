@@ -1,0 +1,42 @@
+{
+  "name": "ghl-claude-hub",
+  "private": true,
+  "description": "Conexión entre GoHighLevel y Claude: MCP oficial, núcleo ghl-core, MCP local ghl-api y bot de Telegram.",
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b && tsc -p tsconfig.pruebas.json",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "secretos": "secretlint \"**/*\"",
+    "verificar": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm secretos",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*": "secretlint"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@secretlint/secretlint-rule-pattern": "^13.0.7",
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.7",
+    "@types/node": "^22.20.5",
+    "eslint": "^10.13.0",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "secretlint": "^13.0.7",
+    "simple-git-hooks": "^2.14.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.0",
+    "vitest": "^5.0.5"
+  }
+}

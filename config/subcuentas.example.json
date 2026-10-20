@@ -1,0 +1,18 @@
+{
+  "subcuentas": [
+    {
+      "alias": "prueba",
+      "nombre": "Subcuenta de prueba RoninX",
+      "locationId": "REEMPLAZA_CON_EL_LOCATION_ID",
+      "entorno": "prueba",
+      "notas": "Subcuenta sin clientes reales. Toda prueba de escritura se hace aquí."
+    },
+    {
+      "alias": "cliente1",
+      "nombre": "Cliente de ejemplo",
+      "locationId": "REEMPLAZA_CON_EL_LOCATION_ID",
+      "entorno": "produccion",
+      "notas": "Escribir aquí exige confirmación humana explícita."
+    }
+  ]
+}

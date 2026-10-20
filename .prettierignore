@@ -1,0 +1,6 @@
+dist
+coverage
+exports
+logs
+pnpm-lock.yaml
+docs/PLAN.md
