@@ -83,7 +83,8 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
   se piden por calendario).
 - **Prueba del rechazo:** en el segundo intento Santi respondió "No" al permiso de
   `execute_operation` y el contacto no se creó. Del primer intento, hecho mal, quedó el contacto
-  `prueba-rechazo@ejemplo.com` en Ronin de Prueba; Santi lo borra.
+  `prueba-rechazo@ejemplo.com` en Ronin de Prueba; se borró con `delete-contact` (200) y se
+  confirmó por ID y, minutos después, por búsqueda.
 - **Siguiente paso:** Etapa 3, núcleo `ghl-core`.
 
 ## Etapa 3 · Núcleo `ghl-core`
