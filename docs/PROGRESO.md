@@ -89,11 +89,35 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 3 · Núcleo `ghl-core`
 
-- **Estado:** en curso
-- **Hecho:**
+- **Estado:** hecha
+- **Hecho (2026-10-22):**
+  - Investigación: SDK oficial 3.1.1 (acepta PIT, tipos pobres), límites de la API y versiones.
+    Se eligió cliente propio con `fetch` y `Version: v3` (ver `docs/DECISIONES.md`).
+  - `cliente.ts`: `ClienteGhl` por subcuenta con headers de límite, Retry-After, reintento
+    exponencial con jitter (429 y 5xx; POST solo 429), concurrencia limitada, tiempo límite,
+    errores normalizados (`ErrorGhl`, en español) y logs redactados. `configuracionApi()` lee
+    `GHL_API_BASE` y `GHL_API_VERSION`.
+  - `subcuentas.ts` y `proveedor-local.ts`: interfaz `ProveedorSubcuentas` con
+    `ProveedorSubcuentasLocal` (`config/subcuentas.json` + `.env.local` o entorno) y
+    `ProveedorSubcuentasMemoria`. La de Supabase queda para la Etapa 6.
+  - `operacion.ts`: tipos `lectura`, `escritura`, `sensible`, `destructiva`; `simular: true` en
+    toda escritura; regla de producción con `confirmacionHumana`; validación con zod.
+  - `catalogo.ts` con 44 operaciones en `dominios/`: contactos (13), oportunidades (9),
+    conversaciones (3), calendarios (5), configuración (4), workflows (3), formularios y
+    encuestas (2), usuarios (1) y pagos (4).
+  - `redaccion.ts`: `redactarDatosPersonales` y `redactarTodo`; `registro.ts`: `Registrador`
+    seguro, salida a stderr.
 - **Verificado:**
+  - `pnpm verificar` pasa: 55 pruebas unitarias con mocks (límites, reintentos, concurrencia,
+    simulación, producción, proyecciones, proveedor local y redacción).
+  - `pnpm test:integracion` pasa contra Ronin de Prueba (17 pruebas): todas las lecturas del
+    catálogo y el ciclo `PRUEBA-CLAUDE-<fecha>` (simular, crear, actualizar, poner y quitar tag,
+    borrar). No queda basura y ningún log contiene el token ni emails.
 - **Pendiente:**
-- **Siguiente paso:**
+  - `enviarMensaje` sin prueba real (ver `docs/DECISIONES.md`).
+  - Las pruebas de integración en la nube usan `GHL_PRIVATE_TOKEN` y `GHL_LOCATION_ID`; en la Mac
+    de Santi usarán `config/subcuentas.json` y `.env.local` cuando existan.
+- **Siguiente paso:** Etapa 4, MCP local `ghl-api` sobre `catalogo` con selector de subcuenta.
 
 ## Etapa 4 · MCP propio `ghl-api`
 

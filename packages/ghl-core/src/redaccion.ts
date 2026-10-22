@@ -20,3 +20,27 @@ export function redactarSecretos(texto: string): string {
     texto,
   );
 }
+
+const MARCA_PERSONAL = "[DATO_PERSONAL]";
+
+// Datos personales que no deben quedar en logs: emails, IPv4 y teléfonos. Los patrones de teléfono
+// exigen "+" o separadores para no confundir fechas ni marcas de tiempo.
+const PATRONES_PERSONALES: RegExp[] = [
+  /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g,
+  /\b(?:\d{1,3}\.){3}\d{1,3}\b/g,
+  /\+\d[\d\s().-]{6,}\d/g, // teléfono internacional (+593 99 123 4567)
+  /\(?\b\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}\b/g, // teléfono local con separadores (099 123 4567)
+];
+
+/** Oculta emails, IP y teléfonos. Para logs; no reemplaza la proyección de campos. */
+export function redactarDatosPersonales(texto: string): string {
+  return PATRONES_PERSONALES.reduce(
+    (acumulado, patron) => acumulado.replace(patron, MARCA_PERSONAL),
+    texto,
+  );
+}
+
+/** Aplica las dos redacciones: secretos y datos personales. */
+export function redactarTodo(texto: string): string {
+  return redactarDatosPersonales(redactarSecretos(texto));
+}

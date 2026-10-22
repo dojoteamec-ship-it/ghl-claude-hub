@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.28.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=20.12"
   },
   "scripts": {
     "build": "tsc -b",
@@ -17,7 +17,8 @@
     "test:watch": "vitest",
     "secretos": "secretlint \"**/*\"",
     "verificar": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm secretos",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "test:integracion": "vitest run --config vitest.integracion.config.ts"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"

@@ -44,6 +44,7 @@ exports/  logs/  .ghl/  salidas locales, ignoradas por Git
 pnpm install          # instala y activa el hook pre-commit de escaneo de secretos
 pnpm verificar        # formato + lint + typecheck + pruebas + escaneo de secretos
 pnpm test             # pruebas unitarias (vitest)
+pnpm test:integracion # pruebas contra la subcuenta de prueba (necesita credenciales)
 pnpm typecheck        # compila los paquetes y revisa tipos de las pruebas
 pnpm lint             # eslint
 pnpm format           # prettier
@@ -51,8 +52,9 @@ pnpm secretos         # secretlint sobre todo el repositorio
 pnpm build            # compila a dist/
 ```
 
-Las pruebas de integración contra GHL viven en `*.integracion.test.ts`. No corren con `pnpm test`,
-porque necesitan `.env.local`. Se agregan en la Etapa 3.
+Las pruebas de integración contra GHL viven en `*.integracion.test.ts` y corren con
+`pnpm test:integracion`: usan `config/subcuentas.json` y `.env.local`, o `GHL_PRIVATE_TOKEN` y
+`GHL_LOCATION_ID` en la nube. Solo escriben en una subcuenta de prueba.
 
 ## Reglas que no se negocian
 

@@ -25,3 +25,15 @@ export const esquemaArchivoSubcuentas = z
 export function variablePit(alias: string): string {
   return `GHL_PIT_${alias.toUpperCase()}`;
 }
+
+/**
+ * Registro de subcuentas. La implementación local lee archivos; la de Supabase llega en la
+ * Etapa 6. Los tokens se piden aparte para que listar subcuentas nunca exponga secretos.
+ */
+export interface ProveedorSubcuentas {
+  listar(): Promise<Subcuenta[]>;
+  /** Lanza ErrorGhl de tipo "configuracion" si el alias no existe. */
+  obtener(alias: string): Promise<Subcuenta>;
+  /** Lanza ErrorGhl de tipo "configuracion" si no hay token para el alias. */
+  obtenerToken(alias: string): Promise<string>;
+}

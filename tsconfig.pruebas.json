@@ -6,5 +6,11 @@
     "declarationMap": false,
     "noEmit": true
   },
-  "include": ["packages/*/src", "apps/*/src", "vitest.config.ts", "eslint.config.js"]
+  "include": [
+    "packages/*/src",
+    "apps/*/src",
+    "vitest.config.ts",
+    "eslint.config.js",
+    "vitest.integracion.config.ts"
+  ]
 }
