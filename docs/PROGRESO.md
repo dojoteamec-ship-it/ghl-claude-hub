@@ -53,13 +53,26 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
   - `list_locations` con PIT responde "list_locations dependencies are not configured" (500):
     con PIT no hay listado de subcuentas. Indicio a favor del camino B para el PIT.
   - `search_operations("list pipelines")` devuelve `get-pipelines` (`opportunities.readonly`).
-- **Verificado:** PIT válido y aceptado por `anthropic/v2`.
+- **Hecho (2026-10-22, segunda prueba tras ampliar scopes):**
+  - La subcuenta del PIT es **"Ronin de Prueba"**, con 94 contactos (la cifra de 1806 de la
+    primera prueba ya no aplica). Queda confirmada como subcuenta de prueba.
+  - REST con `Version: 2021-07-28`: `GET /locations/{id}` 200, `POST /contacts/search` 200
+    (5 recientes), `GET /opportunities/pipelines` 200 (2 pipelines), `POST
+    /opportunities/search` 201, `GET /calendars/` 200 (5), `GET /users/` 200 (2).
+  - MCP `anthropic/v2` con PIT: `search_operations("list pipelines")` devuelve `get-pipelines`;
+    `describe_operation` y `execute_operation` de `get-pipelines` responden 200 (2 pipelines);
+    `execute_operation("search-contacts-advanced")` devuelve 5 contactos.
+  - Los argumentos del MCP van en camelCase: `operationId`, `params`, `locationId`, `dryRun`.
+  - `list_locations` con PIT sigue respondiendo "dependencies are not configured" (500).
+- **Verificado:** PIT válido, con scopes de locations, contactos, oportunidades, calendarios y
+  usuarios. 4 de las 5 pruebas de lectura pasan por MCP; `list_locations` falla solo con PIT.
 - **Pendiente:**
-  - El PIT no tiene scopes fuera de contactos: `GET /locations/{id}` y `get-pipelines`
-    responden 401 "The token is not authorized for this scope". Santi debe ampliar los scopes.
-  - Confirmar que la subcuenta es de prueba: tiene 1806 contactos.
-  - OAuth de `ghl-oficial` en la Mac de Santi y prueba de camino A.
-- **Siguiente paso:** ampliar scopes del PIT y repetir las 5 pruebas de lectura.
+  - OAuth de `ghl-oficial` en la Mac de Santi para probar `list_locations` y decidir camino A o
+    B con evidencia (con PIT todo apunta al camino B).
+  - Prueba de escritura con `dryRun: true` y regla `ask` para `execute_operation`.
+  - `docs/RECETAS-GHL.md` y registro del camino en `docs/DECISIONES.md`.
+- **Siguiente paso:** [TE ESPERA] Santi corre `/mcp` en Claude Code y completa el OAuth de
+  `ghl-oficial`; luego se repite `list_locations` y se decide el camino.
 
 ## Etapa 3 · Núcleo `ghl-core`
 
