@@ -13,7 +13,7 @@ export default tseslint.config(
   },
   {
     // Scripts de terminal para Santi: corren con Node y hablan por consola.
-    files: ["scripts/**/*.mjs"],
+    files: ["scripts/**/*.mjs", "apps/*/src/scripts/**/*.ts"],
     languageOptions: {
       globals: { console: "readonly", process: "readonly", fetch: "readonly", URL: "readonly" },
     },

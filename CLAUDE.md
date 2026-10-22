@@ -51,6 +51,10 @@ pnpm format           # prettier
 pnpm secretos         # secretlint sobre todo el repositorio
 pnpm build            # compila a dist/ (necesario para el MCP ghl-api)
 pnpm subcuenta:alta   # agrega una subcuenta: config/subcuentas.json y su PIT en .env.local
+pnpm bot:configurar   # claves del bot en .env.local (las pide ocultas y las valida)
+pnpm bot:subcuenta:alta / bot:usuario:alta   # altas del bot en Supabase (PIT cifrado)
+pnpm bot               # bot de Telegram en polling; bot:eval y bot:mcp para evaluarlo
+supabase/pruebas/probar-migraciones.sh   # migraciones en un Postgres local temporal
 ```
 
 Las pruebas de integración contra GHL viven en `*.integracion.test.ts` y corren con

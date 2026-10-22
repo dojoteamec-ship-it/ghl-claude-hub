@@ -9,6 +9,12 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@ghl-hub/ghl-core": "workspace:*"
+    "@anthropic-ai/sdk": "0.132.1",
+    "@ghl-hub/ghl-core": "workspace:*",
+    "@supabase/supabase-js": "2.117.3",
+    "grammy": "1.46.0",
+    "openai": "7.30.1",
+    "write-excel-file": "4.1.1",
+    "zod": "^4.6.7"
   }
 }

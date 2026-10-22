@@ -5,6 +5,10 @@
     "outDir": "dist"
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.ts"],
-  "references": [{ "path": "../../packages/ghl-core" }]
+  "exclude": ["src/**/*.test.ts", "src/pruebas-comun.ts"],
+  "references": [
+    {
+      "path": "../../packages/ghl-core"
+    }
+  ]
 }

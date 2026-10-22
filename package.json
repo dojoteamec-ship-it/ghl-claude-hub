@@ -19,7 +19,14 @@
     "verificar": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm secretos",
     "prepare": "simple-git-hooks",
     "test:integracion": "vitest run --config vitest.integracion.config.ts",
-    "subcuenta:alta": "node scripts/subcuenta-alta.mjs"
+    "subcuenta:alta": "node scripts/subcuenta-alta.mjs",
+    "bot": "tsc -b && node apps/bot-telegram/dist/index.js",
+    "bot:configurar": "tsc -b && node apps/bot-telegram/dist/scripts/configurar.js",
+    "bot:subcuenta:alta": "tsc -b && node apps/bot-telegram/dist/scripts/alta-subcuenta.js",
+    "bot:usuario:alta": "tsc -b && node apps/bot-telegram/dist/scripts/alta-usuario.js",
+    "bot:sql": "cat supabase/migrations/*.sql | pbcopy && echo 'Copié la migración al portapapeles: pégala en el SQL Editor de Supabase y presiona Run.'",
+    "bot:eval": "tsc -b && node apps/bot-telegram/dist/scripts/eval.js",
+    "bot:mcp": "tsc -b && node apps/bot-telegram/dist/scripts/mcp-conector.js"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"

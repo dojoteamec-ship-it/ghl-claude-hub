@@ -186,11 +186,33 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 6 · Bot de Telegram en local
 
-- **Estado:** pendiente
-- **Hecho:**
+- **Estado:** esperando a Santi (punto [TE ESPERA] de la Etapa 6)
+- **Hecho (2026-10-22):**
+  - `supabase/migrations/20261022000000_bot_inicial.sql`: tablas `subcuentas`, `usuarios`,
+    `accesos_admin`, `estado_chat`, `historial`, `acciones_pendientes`, `auditoria`,
+    `uso_diario`, `avisos` y `eventos_webhook`, con RLS y funciones atómicas.
+  - `apps/bot-telegram`: cifrado AES-256-GCM de PIT, almacén Supabase y en memoria,
+    `ProveedorSubcuentasAlmacen`, control de acceso, agente con ciclo propio, confirmaciones con
+    botones, topes de costo con aviso al 80 %, división de mensajes, listas largas como XLSX,
+    voz con `gpt-transcribe` y comandos `/start`, `/ayuda`, `/subcuenta`, `/yo`, `/uso`,
+    `/cancelar`.
+  - Scripts: `pnpm bot:configurar` (pide y valida las claves sin mostrarlas),
+    `pnpm bot:sql` (copia la migración), `pnpm bot:subcuenta:alta`, `pnpm bot:usuario:alta`,
+    `pnpm bot` (polling), `pnpm bot:eval` (20 preguntas) y `pnpm bot:mcp` (conector MCP).
 - **Verificado:**
-- **Pendiente:**
-- **Siguiente paso:**
+  - `pnpm verificar` pasa con 106 pruebas; 26 del bot con modelo y GHL simulados, entre ellas
+    aislamiento (un cliente no lee otra subcuenta aunque el modelo lo intente), confirmar una vez,
+    cancelar sin ejecutar, vencimiento, otra persona no confirma, una destructiva por mensaje,
+    escalamiento Haiku a Sonnet, topes y `uso_diario`.
+  - Migraciones probadas en Postgres 16 local con `supabase/pruebas/probar-migraciones.sh`.
+  - De punta a punta contra Ronin de Prueba con un modelo guionado: búsqueda real, tag pendiente
+    sin aplicar, confirmación que lo aplica, uso y auditoría registrados; tag de prueba quitado.
+- **Pendiente:** Supabase real, Telegram real, la evaluación con Claude (`docs/EVAL-BOT.md`), la
+  prueba del conector MCP y una nota de voz. Necesitan las claves de Santi.
+- **Siguiente paso:** [TE ESPERA] Santi crea el bot en @BotFather, la API key de Anthropic, la de
+  OpenAI (opcional) y el proyecto de Supabase; luego `pnpm bot:sql` en el SQL Editor,
+  `pnpm bot:configurar`, `pnpm bot:subcuenta:alta` (prueba), `pnpm bot:usuario:alta` (su ID como
+  admin), `pnpm bot`, `pnpm bot:eval` y `pnpm bot:mcp`.
 
 ## Etapa 7 · Despliegue en Railway
 
