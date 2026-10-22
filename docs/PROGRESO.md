@@ -121,7 +121,7 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 4 · MCP propio `ghl-api`
 
-- **Estado:** esperando a Santi (punto [TE ESPERA] de la Etapa 4)
+- **Estado:** hecha
 - **Hecho (2026-10-22):**
   - `packages/mcp-ghl-api`: servidor stdio con el SDK MCP v2. 47 herramientas: una por operación
     del catálogo (`snake_case`) más `listar_subcuentas`, `seleccionar_subcuenta` y
@@ -141,16 +141,15 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
     GHL) y rechazo claro de una escritura en una subcuenta `produccion` sin `confirmar`.
     `.ghl/activa.json` se actualizó sin token ni `locationId`.
   - `pnpm test:integracion` sigue pasando (17).
-- **Pendiente:** las cuatro pruebas del plan en Claude Code, en la Mac de Santi.
-- **Siguiente paso:** [TE ESPERA] Santi, en su Mac, dentro de `~/ghl-claude-hub`:
-  1. `git pull`.
-  2. `node --version` (debe ser 20.12 o superior; si no, instalar Node LTS desde nodejs.org).
-  3. `corepack enable`, luego `pnpm install` y `pnpm build`.
-  4. `pnpm subcuenta:alta`: alias `prueba`, el Location ID de Ronin de Prueba, "s", y pegar el PIT
-     cuando lo pida (no se ve en pantalla).
-  5. Reiniciar Claude Code, aprobar `ghl-api` y probar: "lista mis subcuentas", "selecciona
-     prueba", "busca contactos con el tag es_prueba", "crea un contacto de prueba en modo
-     simulación".
+- **Verificado en la Mac de Santi (2026-10-22):** Node 24.21, `pnpm install` y `pnpm build`
+  correctos; `pnpm subcuenta:alta` validó Ronin de Prueba. En Claude Code, con `ghl-api`, pasan
+  las cuatro pruebas del plan: listar subcuentas, seleccionar `prueba`, buscar el tag
+  `es_prueba` (1 contacto) y simular un contacto (respuesta "SIMULACIÓN", `locationId` puesto
+  por el servidor, nada escrito en GHL).
+- **Pendiente:** dar de alta una subcuenta de cliente con su propio PIT para probar el cambio de
+  subcuenta con datos reales (en la nube se probó con una subcuenta ficticia).
+- **Siguiente paso:** Etapa 5, máximo provecho en Claude Code (barra de estado, skills y
+  comandos).
 
 ## Etapa 5 · Máximo provecho en Claude Code
 
