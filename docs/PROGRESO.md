@@ -44,11 +44,22 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 2 · MCP oficial de GHL en Claude Code
 
-- **Estado:** pendiente
-- **Hecho:**
-- **Verificado:**
+- **Estado:** en curso
+- **Hecho (2026-10-22, desde la nube con `GHL_PRIVATE_TOKEN` y `GHL_LOCATION_ID`):**
+  - El PIT autentica contra la API: `POST /contacts/search` devuelve 200 (1806 contactos).
+  - El PIT autentica contra `https://services.leadconnectorhq.com/mcp/anthropic/v2` como
+    `Authorization: Bearer`. `tools/list` expone solo 4 herramientas: `search_operations`,
+    `describe_operation`, `execute_operation` y `list_locations` (no `search` ni `fetch`).
+  - `list_locations` con PIT responde "list_locations dependencies are not configured" (500):
+    con PIT no hay listado de subcuentas. Indicio a favor del camino B para el PIT.
+  - `search_operations("list pipelines")` devuelve `get-pipelines` (`opportunities.readonly`).
+- **Verificado:** PIT válido y aceptado por `anthropic/v2`.
 - **Pendiente:**
-- **Siguiente paso:**
+  - El PIT no tiene scopes fuera de contactos: `GET /locations/{id}` y `get-pipelines`
+    responden 401 "The token is not authorized for this scope". Santi debe ampliar los scopes.
+  - Confirmar que la subcuenta es de prueba: tiene 1806 contactos.
+  - OAuth de `ghl-oficial` en la Mac de Santi y prueba de camino A.
+- **Siguiente paso:** ampliar scopes del PIT y repetir las 5 pruebas de lectura.
 
 ## Etapa 3 · Núcleo `ghl-core`
 
