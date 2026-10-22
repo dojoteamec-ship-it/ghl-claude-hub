@@ -58,7 +58,7 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
     primera prueba ya no aplica). Queda confirmada como subcuenta de prueba.
   - REST con `Version: 2021-07-28`: `GET /locations/{id}` 200, `POST /contacts/search` 200
     (5 recientes), `GET /opportunities/pipelines` 200 (2 pipelines), `POST
-    /opportunities/search` 201, `GET /calendars/` 200 (5), `GET /users/` 200 (2).
+/opportunities/search` 201, `GET /calendars/` 200 (5), `GET /users/` 200 (2).
   - MCP `anthropic/v2` con PIT: `search_operations("list pipelines")` devuelve `get-pipelines`;
     `describe_operation` y `execute_operation` de `get-pipelines` responden 200 (2 pipelines);
     `execute_operation("search-contacts-advanced")` devuelve 5 contactos.
