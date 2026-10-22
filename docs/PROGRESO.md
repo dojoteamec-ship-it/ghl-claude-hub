@@ -153,11 +153,29 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 5 · Máximo provecho en Claude Code
 
-- **Estado:** pendiente
-- **Hecho:**
+- **Estado:** esperando a Santi (punto [TE ESPERA] de la Etapa 5)
+- **Hecho (2026-10-22):**
+  - `ghl-core`: dominio `reportes` con `resumenBriefing`, `resumenPipeline`, `auditoriaSubcuenta`
+    y `leadsSinRespuesta` (48 operaciones en total).
+  - `ghl-api`: herramientas `exportar` (XLSX o CSV en `exports/`) y `comparar_subcuentas`.
+  - Ocho skills en `.claude/skills/`: `/subcuenta`, `/briefing`, `/pipeline`, `/auditoria`,
+    `/limpieza` (solo manual), `/seguimiento` (nunca envía), `/exportar` y
+    `/comparar-subcuentas`.
+  - Barra de estado `GHL: <alias> (<entorno>)`, en rojo para producción.
+  - Hook que registra cada llamada a GHL en `logs/acciones-ghl.jsonl` sin datos personales.
+  - `docs/RECETAS-GHL.md` con 25 pedidos probados.
 - **Verificado:**
-- **Pendiente:**
-- **Siguiente paso:**
+  - `pnpm verificar` pasa con 80 pruebas: reportes, exportación (CSV y XLSX), barra de estado,
+    hook y coherencia de skills y permisos con el catálogo.
+  - Las 15 recetas nuevas corren por stdio contra Ronin de Prueba. Los XLSX abren en openpyxl y
+    LibreOffice.
+  - `pnpm test:integracion` sigue pasando.
+- **Pendiente:** correr los comandos en Claude Code en la Mac de Santi.
+- **Siguiente paso:** [TE ESPERA] Santi, en `~/ghl-claude-hub`: `git pull`, `pnpm install`,
+  `pnpm build`, abrir `claude` y probar `/subcuenta prueba`, `/briefing`, `/pipeline`,
+  `/auditoria`, `/seguimiento`, `/exportar contactos con el tag es_prueba`,
+  `/comparar-subcuentas` y `/limpieza` (solo hasta la simulación). Revisar la barra de estado y
+  abrir el XLSX en Excel.
 
 ## Etapa 6 · Bot de Telegram en local
 

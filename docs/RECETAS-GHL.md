@@ -1,7 +1,8 @@
 # Recetas GHL
 
-Pedidos frecuentes probados con la conexión `ghl-oficial` (MCP oficial de GHL), solo lectura, en la
-subcuenta de prueba "Ronin de Prueba". Cada receta indica la operación, los parámetros que
+Pedidos frecuentes probados en la subcuenta de prueba "Ronin de Prueba": del 1 al 10 con la
+conexión `ghl-oficial` (MCP oficial de GHL) y del 11 al 25 con el MCP propio `ghl-api` y sus
+comandos. Cada receta indica la operación, los parámetros que
 funcionaron y el resultado. No se registran datos personales.
 
 Fecha de la prueba: 2026-10-22.
@@ -171,6 +172,47 @@ milisegundos desde epoch.
   ```
 
 - **Resultado:** funcionó. 5 conversaciones de `total: 85`.
+
+## Recetas 11 a 25: comandos y MCP `ghl-api` (Etapa 5)
+
+Probadas el 2026-10-22 en Ronin de Prueba, llamando por stdio al servidor `ghl-api`, igual que
+Claude Code. Los comandos `/...` son las skills de `.claude/skills/`; cada uno usa la herramienta
+indicada. Las rutas de `exports/` quedan en la carpeta del proyecto.
+
+| #   | Pedido o comando                               | Herramienta                    | Resultado                                                                                                                                              |
+| --- | ---------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 11  | /subcuenta prueba                              | `seleccionar_subcuenta`        | Funcionó: Subcuenta activa: "prueba" (Ronin de Prueba, prueba).                                                                                        |
+| 12  | /briefing                                      | `resumen_briefing`             | Funcionó: leads nuevos 4, 1 etapas con abiertas, citas hoy 0, sin responder 49                                                                         |
+| 13  | /briefing 72                                   | `resumen_briefing`             | Funcionó: leads nuevos 7, 1 etapas con abiertas, citas hoy 0, sin responder 49                                                                         |
+| 14  | /pipeline                                      | `resumen_pipeline`             | Funcionó: Marketing Pipeline: 0 abiertas, estancadas 0; PIPELINE ODONTOSONRISA: 1 abiertas, estancadas 1                                               |
+| 15  | /auditoria                                     | `auditoria_subcuenta`          | Funcionó: puntaje 64 (mala), 4 prioridades, 95 contactos revisados                                                                                     |
+| 16  | /seguimiento 48                                | `leads_sin_respuesta`          | Funcionó: 41 leads sin respuesta más de 48 h                                                                                                           |
+| 17  | /exportar contactos con el tag es_prueba       | `exportar`                     | Funcionó: Exporté 1 filas y 12 columnas de "prueba"                                                                                                    |
+| 18  | /exportar contactos de la última semana en csv | `exportar`                     | Funcionó: Exporté 11 filas y 12 columnas de "prueba"                                                                                                   |
+| 19  | /exportar la auditoría                         | `exportar`                     | Funcionó: Exporté 4 filas y 7 columnas de "prueba"                                                                                                     |
+| 20  | /comparar-subcuentas                           | `comparar_subcuentas`          | Funcionó: prueba: 11 leads 7d, 1 abiertas, 49 sin responder; sin_token: error (La configuración de la subcuenta está incompleta. Detalle: Falta la va) |
+| 21  | Oportunidades estancadas más de 30 días        | `oportunidades_sin_movimiento` | Funcionó: 1 oportunidades                                                                                                                              |
+| 22  | Campos personalizados de contactos             | `listar_campos_personalizados` | Funcionó: 24 campos                                                                                                                                    |
+| 23  | Envíos de formularios del último mes           | `envios_formularios`           | Funcionó: 3 envíos (total 3)                                                                                                                           |
+| 24  | Tags definidos en la subcuenta                 | `listar_tags`                  | Funcionó: 20 tags                                                                                                                                      |
+| 25  | Simular agregar un tag a Prueba Claude         | `agregar_tags`                 | Funcionó: SIMULACIÓN en "prueba" (prueba): no se ejecutó nada en GHL.                                                                                  |
+
+Notas por receta:
+
+- **11.** Cambia `.ghl/activa.json`; la barra de estado lo muestra desde el siguiente mensaje.
+- **12.** Zona horaria tomada de la subcuenta (America/Bogota). "Sin responder" = último mensaje entrante.
+- **13.** `horas: 72` amplía solo la ventana de leads nuevos.
+- **14.** La conversión es aproximada: GHL no guarda el historial de etapas.
+- **15.** Revisa todos los contactos con `searchAfter` (hasta 2000 por defecto).
+- **16.** Ordena de la conversación más antigua a la más reciente; la skill redacta borradores sin enviar.
+- **17.** XLSX validado con openpyxl y LibreOffice.
+- **18.** CSV en UTF-8 con BOM, para que Excel muestre tildes y eñes.
+- **19.** Exporta la lista de prioridades de la auditoría.
+- **20.** Una subcuenta sin su PIT aparece con error, sin cortar la comparación.
+- **21.** Filtro propio sobre `lastStageChangeAt`.
+- **22.** `modelo`: contact, opportunity o all.
+- **23.** Fechas en YYYY-MM-DD; las respuestas del formulario no se devuelven.
+- **25.** Lee el contacto por ID antes de simular; no escribe nada.
 
 ## Lecciones para ghl-core y el bot
 

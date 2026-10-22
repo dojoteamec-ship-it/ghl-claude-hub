@@ -51,6 +51,8 @@
       "mcp__ghl-api__listar_subcuentas",
       "mcp__ghl-api__subcuenta_activa",
       "mcp__ghl-api__seleccionar_subcuenta",
+      "mcp__ghl-api__comparar_subcuentas",
+      "mcp__ghl-api__exportar",
       "mcp__ghl-api__buscar_contactos",
       "mcp__ghl-api__obtener_contacto",
       "mcp__ghl-api__buscar_duplicado",
@@ -76,7 +78,41 @@
       "mcp__ghl-api__listar_transacciones",
       "mcp__ghl-api__listar_ordenes",
       "mcp__ghl-api__listar_facturas",
-      "mcp__ghl-api__listar_productos"
+      "mcp__ghl-api__listar_productos",
+      "mcp__ghl-api__resumen_briefing",
+      "mcp__ghl-api__resumen_pipeline",
+      "mcp__ghl-api__auditoria_subcuenta",
+      "mcp__ghl-api__leads_sin_respuesta"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "node \"$(git rev-parse --show-toplevel 2>/dev/null || pwd)/scripts/barra-estado.mjs\""
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "mcp__ghl-(api|oficial)__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/registro-acciones.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "mcp__ghl-(api|oficial)__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/scripts/registro-acciones.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }

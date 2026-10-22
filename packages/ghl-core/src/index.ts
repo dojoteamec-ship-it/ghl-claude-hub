@@ -16,3 +16,4 @@ export * from "./dominios/formularios.js";
 export * from "./dominios/usuarios.js";
 export * from "./dominios/pagos.js";
 export * from "./catalogo.js";
+export * from "./dominios/reportes.js";

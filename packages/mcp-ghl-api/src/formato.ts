@@ -5,7 +5,7 @@ export const MAXIMO_CARACTERES = 20_000;
 /** Elementos que se muestran por lista antes de resumir. */
 export const MAXIMO_ELEMENTOS = 50;
 
-/** Recorta listas largas y quita claves vacías para ahorrar contexto. */
+/** Recorta listas largas y quita claves sin valor para ahorrar contexto. */
 function compactar(valor: unknown, profundidad = 0): unknown {
   if (Array.isArray(valor)) {
     const elementos = valor.slice(0, MAXIMO_ELEMENTOS).map((v) => compactar(v, profundidad + 1));
@@ -17,7 +17,8 @@ function compactar(valor: unknown, profundidad = 0): unknown {
   if (valor && typeof valor === "object") {
     return Object.fromEntries(
       Object.entries(valor)
-        .filter(([, v]) => v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0))
+        // Las listas vacías se conservan: "citasHoy: []" dice que no hay citas.
+        .filter(([, v]) => v !== undefined && v !== null)
         .map(([k, v]) => [k, compactar(v, profundidad + 1)]),
     );
   }

@@ -12,6 +12,7 @@ import {
 import { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
 import type { EstadoActiva } from "./estado.js";
+import { escribirExportacion } from "./exportar.js";
 import { formatearResultado } from "./formato.js";
 import { aSnake } from "./nombres.js";
 
@@ -28,6 +29,8 @@ export interface OpcionesServidor {
   proveedor: ProveedorSubcuentas;
   estado: EstadoActiva;
   registrador?: Registrador;
+  /** Carpeta donde exportar escribe los CSV y XLSX (exports/ en la raíz del proyecto). */
+  carpetaExportes: string;
   /** Se inyecta en pruebas. */
   crearCliente?: (token: string, subcuenta: Subcuenta) => ClienteGhl;
 }
@@ -180,6 +183,116 @@ export function crearServidor(opciones: OpcionesServidor): McpServer {
         const subcuenta = await resolverSubcuenta();
         const elegida = estado.leer() ? "" : " (por defecto: aún no se eligió ninguna)";
         return texto(`"${subcuenta.alias}" (${subcuenta.nombre}, ${subcuenta.entorno})${elegida}.`);
+      } catch (error) {
+        return texto(mensajeDeError(error), true);
+      }
+    },
+  );
+
+  const lecturas = catalogo.filter((o) => o.tipo === "lectura");
+  const nombresLectura = lecturas.map((o) => aSnake(o.nombre)) as [string, ...string[]];
+
+  servidor.registerTool(
+    "exportar",
+    {
+      title: "Exportar a CSV o XLSX",
+      description:
+        "Corre una herramienta de lectura y guarda su lista principal como archivo en exports/ " +
+        "(XLSX por defecto, abre en Excel). Devuelve la ruta. Ejemplo: operacion buscar_contactos.",
+      inputSchema: z.strictObject({
+        operacion: z.enum(nombresLectura).describe("Herramienta de lectura a exportar."),
+        entrada: z
+          .record(z.string(), z.unknown())
+          .default({})
+          .describe("Argumentos de esa herramienta."),
+        formato: z.enum(["xlsx", "csv"]).default("xlsx"),
+        nombre: z.string().max(60).optional().describe("Nombre base del archivo."),
+        subcuenta: campoSubcuenta,
+      }),
+      annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+    },
+    async ({ operacion: nombre, entrada, formato, nombre: base, subcuenta: alias }) => {
+      try {
+        const operacion = lecturas.find((o) => aSnake(o.nombre) === nombre);
+        if (!operacion) throw new ErrorGhl({ tipo: "validacion", detalle: `No existe ${nombre}.` });
+        const subcuenta = await resolverSubcuenta(alias);
+        const ctx = { cliente: await clientePara(subcuenta), subcuenta };
+        const resultado = await ejecutarOperacion(operacion, ctx, entrada);
+        const archivo = await escribirExportacion({
+          carpeta: opciones.carpetaExportes,
+          nombre: base ?? nombre,
+          alias: subcuenta.alias,
+          formato,
+          resultado,
+        });
+        return texto(
+          `Exporté ${archivo.filas} filas y ${archivo.columnas} columnas de "${subcuenta.alias}" a ${archivo.ruta}`,
+        );
+      } catch (error) {
+        return texto(mensajeDeError(error), true);
+      }
+    },
+  );
+
+  servidor.registerTool(
+    "comparar_subcuentas",
+    {
+      title: "Comparar subcuentas",
+      description:
+        "Métricas lado a lado de varias subcuentas: leads nuevos, oportunidades abiertas y " +
+        "ganadas con su valor, conversaciones sin responder y, si se pide, el puntaje de auditoría.",
+      inputSchema: z.strictObject({
+        subcuentas: z.array(z.string()).optional().describe("Alias a comparar; por defecto todas."),
+        dias: z.number().int().min(1).max(90).default(7).describe("Ventana para leads nuevos."),
+        incluirAuditoria: z.boolean().default(false).describe("Más lento: revisa los contactos."),
+      }),
+      annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: true },
+    },
+    async ({ subcuentas: aliases, dias, incluirAuditoria }) => {
+      try {
+        const todas = await proveedor.listar();
+        const elegidas = aliases?.length ? todas.filter((s) => aliases.includes(s.alias)) : todas;
+        const operacionDe = (n: string) => {
+          const o = catalogo.find((x) => x.nombre === n);
+          if (!o) throw new Error(n);
+          return o;
+        };
+        const filas = [];
+        for (const subcuenta of elegidas) {
+          try {
+            const ctx = { cliente: await clientePara(subcuenta), subcuenta };
+            const [briefing, pipeline, auditoria] = await Promise.all([
+              ejecutarOperacion(operacionDe("resumenBriefing"), ctx, { horas: dias * 24 }),
+              ejecutarOperacion(operacionDe("resumenPipeline"), ctx, {}),
+              incluirAuditoria
+                ? ejecutarOperacion(operacionDe("auditoriaSubcuenta"), ctx, {})
+                : undefined,
+            ]);
+            const b = briefing as {
+              leadsNuevos: { total: number };
+              sinResponder: { total: number };
+            };
+            const p = (pipeline as { pipelines: Record<string, number>[] }).pipelines;
+            const suma = (k: string) => p.reduce((s, x) => s + (x[k] ?? 0), 0);
+            filas.push({
+              alias: subcuenta.alias,
+              nombre: subcuenta.nombre,
+              entorno: subcuenta.entorno,
+              [`leadsNuevos${dias}d`]: b.leadsNuevos.total,
+              oportunidadesAbiertas: suma("abiertas"),
+              valorAbierto: suma("valorAbierto"),
+              ganadas: suma("ganadas"),
+              valorGanado: suma("valorGanado"),
+              sinResponder: b.sinResponder.total,
+              ...(auditoria
+                ? { puntajeAuditoria: (auditoria as { puntaje: number }).puntaje }
+                : {}),
+            });
+          } catch (error) {
+            filas.push({ alias: subcuenta.alias, error: mensajeDeError(error) });
+          }
+        }
+        return texto(JSON.stringify(filas));
       } catch (error) {
         return texto(mensajeDeError(error), true);
       }

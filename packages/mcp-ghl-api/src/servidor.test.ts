@@ -66,6 +66,7 @@ async function conectar() {
         { subcuenta: cliente1, token: "t2" },
       ]),
       estado: new EstadoActiva(rutaActiva),
+      carpetaExportes: join(rutaActiva, "..", "..", "exports"),
       crearCliente,
     });
   const manejador = createMcpHandler(servidor);
@@ -99,7 +100,7 @@ describe("servidor ghl-api", () => {
       expect.arrayContaining(["listar_subcuentas", "seleccionar_subcuenta", "subcuenta_activa"]),
     );
     for (const o of catalogo) expect(nombres).toContain(aSnake(o.nombre));
-    expect(tools).toHaveLength(catalogo.length + 3);
+    expect(tools).toHaveLength(catalogo.length + 5);
   });
 
   it("marca lecturas, destructivas y sensibles como corresponde", async () => {

@@ -5,6 +5,7 @@ import { operacionesConversaciones } from "./dominios/conversaciones.js";
 import { operacionesFormularios } from "./dominios/formularios.js";
 import { operacionesOportunidades } from "./dominios/oportunidades.js";
 import { operacionesPagos } from "./dominios/pagos.js";
+import { operacionesReportes } from "./dominios/reportes.js";
 import { operacionesUsuarios } from "./dominios/usuarios.js";
 import { operacionesWorkflows } from "./dominios/workflows.js";
 import type { Operacion } from "./operacion.js";
@@ -20,6 +21,7 @@ export const catalogo: readonly Operacion[] = [
   ...operacionesFormularios,
   ...operacionesUsuarios,
   ...operacionesPagos,
+  ...operacionesReportes,
 ] as readonly Operacion[];
 
 export function buscarOperacion(nombre: string): Operacion | undefined {

@@ -21,7 +21,9 @@ const registrador = {
   },
 };
 
-const manejador = serveStdio(() => crearServidor({ proveedor, estado, registrador }));
+const manejador = serveStdio(() =>
+  crearServidor({ proveedor, estado, registrador, carpetaExportes: join(raiz, "exports") }),
+);
 console.error("ghl-api escuchando por stdio");
 
 process.on("SIGINT", () => {
