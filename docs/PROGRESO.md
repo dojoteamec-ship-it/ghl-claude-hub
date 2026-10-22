@@ -73,11 +73,10 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
   - `search-contacts-advanced` lee 1 contacto reciente en cada subcuenta (200).
   - `search_operations("list pipelines")` y `execute_operation("get-pipelines")` en Ronin de
     Prueba devuelven 2 pipelines (200).
-- **Verificado:** las 5 pruebas de lectura pasan. **Camino A**: una sola conexión OAuth llega a
+- **Verificado:** `create-contact` con `dryRun: true` en Ronin de Prueba: Claude Code pidió
+  aprobación antes de `execute_operation` y no se creó nada. Las 5 pruebas de lectura pasan. **Camino A**: una sola conexión OAuth llega a
   varias subcuentas con `locationId` (registrado en `docs/DECISIONES.md`).
 - **Pendiente:**
-  - Una escritura con `execute_operation` y `dryRun: true` en Ronin de Prueba, para comprobar
-    que Claude Code pide confirmación.
   - `docs/RECETAS-GHL.md` con al menos 10 pedidos probados.
   - El OAuth solo vive en la Mac de Santi; las sesiones en la nube no lo tienen.
 - **Siguiente paso:** prueba de escritura simulada y recetas en la Mac de Santi; luego Etapa 3.
