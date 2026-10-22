@@ -17,18 +17,18 @@ milisegundos desde epoch.
 
 ## Resumen
 
-| #   | Pedido                               | Operación                                           | Resultado                            |
-| --- | ------------------------------------ | --------------------------------------------------- | ------------------------------------ |
-| 1   | Los 5 contactos más recientes        | `search-contacts-advanced`                          | Funcionó: 5 de 96                    |
-| 2   | Contactos creados en los últimos 7 d | `search-contacts-advanced`                          | Funcionó: 12                         |
-| 3   | Contactos con la etiqueta es_prueba  | `search-contacts-advanced`                          | Funcionó: 1                          |
-| 4   | Pipelines y sus etapas               | `get-pipelines`                                     | Funcionó: 2 pipelines                |
-| 5   | Oportunidades abiertas por etapa     | `search-opportunity` + `get-pipelines`              | Funcionó: 1 abierta                  |
-| 6   | Oportunidades sin movimiento en 14 d | `search-opportunity` + filtro propio                | Funcionó con filtro propio: 1        |
-| 7   | Citas de los próximos 7 días         | `get-calendars` + `get-calendar-events`             | Funcionó: 0 citas                    |
-| 8   | Calendarios de la subcuenta          | `get-calendars`                                     | Funcionó: 5 (1 activo)               |
-| 9   | Usuarios de la subcuenta             | `get-location` + `search-users`                     | Funcionó al segundo intento: 2       |
-| 10  | Últimas 5 conversaciones             | `search-conversation`                               | Funcionó: 5 de 85                    |
+| #   | Pedido                               | Operación                               | Resultado                      |
+| --- | ------------------------------------ | --------------------------------------- | ------------------------------ |
+| 1   | Los 5 contactos más recientes        | `search-contacts-advanced`              | Funcionó: 5 de 96              |
+| 2   | Contactos creados en los últimos 7 d | `search-contacts-advanced`              | Funcionó: 12                   |
+| 3   | Contactos con la etiqueta es_prueba  | `search-contacts-advanced`              | Funcionó: 1                    |
+| 4   | Pipelines y sus etapas               | `get-pipelines`                         | Funcionó: 2 pipelines          |
+| 5   | Oportunidades abiertas por etapa     | `search-opportunity` + `get-pipelines`  | Funcionó: 1 abierta            |
+| 6   | Oportunidades sin movimiento en 14 d | `search-opportunity` + filtro propio    | Funcionó con filtro propio: 1  |
+| 7   | Citas de los próximos 7 días         | `get-calendars` + `get-calendar-events` | Funcionó: 0 citas              |
+| 8   | Calendarios de la subcuenta          | `get-calendars`                         | Funcionó: 5 (1 activo)         |
+| 9   | Usuarios de la subcuenta             | `get-location` + `search-users`         | Funcionó al segundo intento: 2 |
+| 10  | Últimas 5 conversaciones             | `search-conversation`                   | Funcionó: 5 de 85              |
 
 ## Recetas
 
@@ -74,7 +74,12 @@ milisegundos desde epoch.
 - **Parámetros:**
 
   ```json
-  { "body": { "filters": [{ "field": "tags", "operator": "contains", "value": ["es_prueba"] }], "pageLimit": 20 } }
+  {
+    "body": {
+      "filters": [{ "field": "tags", "operator": "contains", "value": ["es_prueba"] }],
+      "pageLimit": 20
+    }
+  }
   ```
 
 - **Resultado:** funcionó. `total: 1`.
@@ -123,7 +128,13 @@ milisegundos desde epoch.
 - **Parámetros:**
 
   ```json
-  { "query": { "calendarId": "<CALENDAR_ID>", "startTime": "<AHORA_MS>", "endTime": "<AHORA_MS + 7 días>" } }
+  {
+    "query": {
+      "calendarId": "<CALENDAR_ID>",
+      "startTime": "<AHORA_MS>",
+      "endTime": "<AHORA_MS + 7 días>"
+    }
+  }
   ```
 
 - **Resultado:** funcionó. 0 citas en los 5 calendarios.

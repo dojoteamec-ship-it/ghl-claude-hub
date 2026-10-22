@@ -44,7 +44,7 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 2 · MCP oficial de GHL en Claude Code
 
-- **Estado:** en curso
+- **Estado:** hecha, salvo confirmar la prueba del rechazo
 - **Hecho (2026-10-22, desde la nube con `GHL_PRIVATE_TOKEN` y `GHL_LOCATION_ID`):**
   - El PIT autentica contra la API: `POST /contacts/search` devuelve 200 (1806 contactos).
   - El PIT autentica contra `https://services.leadconnectorhq.com/mcp/anthropic/v2` como
@@ -77,9 +77,12 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
   aprobación antes de `execute_operation` y no se creó nada. Las 5 pruebas de lectura pasan. **Camino A**: una sola conexión OAuth llega a
   varias subcuentas con `locationId` (registrado en `docs/DECISIONES.md`).
 - **Pendiente:**
-  - `docs/RECETAS-GHL.md` con al menos 10 pedidos probados.
   - El OAuth solo vive en la Mac de Santi; las sesiones en la nube no lo tienen.
-- **Siguiente paso:** prueba de escritura simulada y recetas en la Mac de Santi; luego Etapa 3.
+- **Recetas:** `docs/RECETAS-GHL.md` con 10 pedidos de lectura probados en Ronin de Prueba;
+  los 10 funcionan (dos con ajuste de parámetros: `search-users` exige `companyId` y las citas
+  se piden por calendario).
+- **Siguiente paso:** Santi confirma que no existe `prueba-rechazo@ejemplo.com` en Ronin de
+  Prueba (la prueba de rechazar el permiso). Luego empieza la Etapa 3.
 
 ## Etapa 3 · Núcleo `ghl-core`
 
