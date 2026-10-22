@@ -153,7 +153,7 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 5 · Máximo provecho en Claude Code
 
-- **Estado:** esperando a Santi (punto [TE ESPERA] de la Etapa 5)
+- **Estado:** hecha
 - **Hecho (2026-10-22):**
   - `ghl-core`: dominio `reportes` con `resumenBriefing`, `resumenPipeline`, `auditoriaSubcuenta`
     y `leadsSinRespuesta` (48 operaciones en total).
@@ -177,12 +177,12 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
   64 a 88. `logs/acciones-ghl.jsonl` distingue simulado y real.
 - **Aprendido:** en la primera corrida, tras el sí, Claude no ejecutó; la skill ahora pide
   ejecutar en el mismo turno con `simular: false`.
-- **Pendiente:** confirmar que el XLSX abre en Excel en la Mac.
-- **Siguiente paso:** [TE ESPERA] Santi, en `~/ghl-claude-hub`: `git pull`, `pnpm install`,
-  `pnpm build`, abrir `claude` y probar `/subcuenta prueba`, `/briefing`, `/pipeline`,
-  `/auditoria`, `/seguimiento`, `/exportar contactos con el tag es_prueba`,
-  `/comparar-subcuentas` y `/limpieza` (solo hasta la simulación). Revisar la barra de estado y
-  abrir el XLSX en Excel.
+- **Verificado también:** el XLSX exportado abre en Numbers en la Mac de Santi, con encabezados y
+  el contacto de prueba (Numbers y Excel leen el mismo formato; también se validó con LibreOffice
+  y openpyxl).
+- **Decisión de Santi:** no excluir de "sin responder" los chats personales del WhatsApp
+  conectado; se dejan como están.
+- **Siguiente paso:** Etapa 6, bot de Telegram en local.
 
 ## Etapa 6 · Bot de Telegram en local
 
