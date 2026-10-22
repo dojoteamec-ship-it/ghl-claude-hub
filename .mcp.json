@@ -3,6 +3,11 @@
     "ghl-oficial": {
       "type": "http",
       "url": "https://services.leadconnectorhq.com/mcp/anthropic/v2"
+    },
+    "ghl-api": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/packages/mcp-ghl-api/dist/index.js"]
     }
   }
 }

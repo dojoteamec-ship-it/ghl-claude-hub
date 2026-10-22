@@ -49,7 +49,8 @@ pnpm typecheck        # compila los paquetes y revisa tipos de las pruebas
 pnpm lint             # eslint
 pnpm format           # prettier
 pnpm secretos         # secretlint sobre todo el repositorio
-pnpm build            # compila a dist/
+pnpm build            # compila a dist/ (necesario para el MCP ghl-api)
+pnpm subcuenta:alta   # agrega una subcuenta: config/subcuentas.json y su PIT en .env.local
 ```
 
 Las pruebas de integración contra GHL viven en `*.integracion.test.ts` y corren con

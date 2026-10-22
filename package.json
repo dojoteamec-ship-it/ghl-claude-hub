@@ -18,7 +18,8 @@
     "secretos": "secretlint \"**/*\"",
     "verificar": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm secretos",
     "prepare": "simple-git-hooks",
-    "test:integracion": "vitest run --config vitest.integracion.config.ts"
+    "test:integracion": "vitest run --config vitest.integracion.config.ts",
+    "subcuenta:alta": "node scripts/subcuenta-alta.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"

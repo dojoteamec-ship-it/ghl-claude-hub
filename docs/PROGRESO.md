@@ -9,7 +9,7 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 1 · Base del proyecto
 
-- **Estado:** esperando a Santi (punto [TE ESPERA] de la Etapa 1)
+- **Estado:** hecha (la configuración local se crea con `pnpm subcuenta:alta`, Etapa 4)
 - **Hecho:**
   - Monorepo con workspaces de pnpm: `packages/ghl-core`, `packages/mcp-ghl-api`,
     `apps/bot-telegram`.
@@ -121,11 +121,36 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
 
 ## Etapa 4 · MCP propio `ghl-api`
 
-- **Estado:** pendiente
-- **Hecho:**
+- **Estado:** esperando a Santi (punto [TE ESPERA] de la Etapa 4)
+- **Hecho (2026-10-22):**
+  - `packages/mcp-ghl-api`: servidor stdio con el SDK MCP v2. 47 herramientas: una por operación
+    del catálogo (`snake_case`) más `listar_subcuentas`, `seleccionar_subcuenta` y
+    `subcuenta_activa`. Todas aceptan `subcuenta`; las escrituras, `simular` y `confirmar`.
+  - Seguridad: esquema estricto, `confirmar: true` obligatorio en producción, anotaciones MCP y
+    `anthropic/requiresUserInteraction` en sensibles y destructivas.
+  - Subcuenta activa en `.ghl/activa.json`; carga `config/subcuentas.json` y `.env.local` desde
+    `CLAUDE_PROJECT_DIR`.
+  - `.mcp.json` registra `ghl-api`; `.claude/settings.json` con `allow` de lecturas y `ask` de
+    escrituras.
+  - `pnpm subcuenta:alta` para crear la configuración local sin tocar archivos a mano.
 - **Verificado:**
-- **Pendiente:**
-- **Siguiente paso:**
+  - `pnpm verificar` pasa: 65 pruebas (10 nuevas del servidor con un cliente MCP real en memoria y
+    la de permisos contra el catálogo).
+  - Prueba por stdio contra Ronin de Prueba, en la nube: listar subcuentas, seleccionar `prueba`,
+    buscar contactos con el tag `es_prueba` (1), simular la creación de un contacto (sin llamar a
+    GHL) y rechazo claro de una escritura en una subcuenta `produccion` sin `confirmar`.
+    `.ghl/activa.json` se actualizó sin token ni `locationId`.
+  - `pnpm test:integracion` sigue pasando (17).
+- **Pendiente:** las cuatro pruebas del plan en Claude Code, en la Mac de Santi.
+- **Siguiente paso:** [TE ESPERA] Santi, en su Mac, dentro de `~/ghl-claude-hub`:
+  1. `git pull`.
+  2. `node --version` (debe ser 20.12 o superior; si no, instalar Node LTS desde nodejs.org).
+  3. `corepack enable`, luego `pnpm install` y `pnpm build`.
+  4. `pnpm subcuenta:alta`: alias `prueba`, el Location ID de Ronin de Prueba, "s", y pegar el PIT
+     cuando lo pida (no se ve en pantalla).
+  5. Reiniciar Claude Code, aprobar `ghl-api` y probar: "lista mis subcuentas", "selecciona
+     prueba", "busca contactos con el tag es_prueba", "crea un contacto de prueba en modo
+     simulación".
 
 ## Etapa 5 · Máximo provecho en Claude Code
 
