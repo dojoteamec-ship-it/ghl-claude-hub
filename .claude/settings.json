@@ -16,7 +16,7 @@
       "Bash(printenv*)",
       "Bash(env)"
     ],
-    "ask": [],
+    "ask": ["mcp__ghl-oficial__execute_operation"],
     "allow": [
       "Bash(pnpm install)",
       "Bash(pnpm build)",
@@ -24,7 +24,10 @@
       "Bash(pnpm lint)",
       "Bash(pnpm test)",
       "Bash(pnpm secretos)",
-      "Bash(pnpm verificar)"
+      "Bash(pnpm verificar)",
+      "mcp__ghl-oficial__search_operations",
+      "mcp__ghl-oficial__describe_operation",
+      "mcp__ghl-oficial__list_locations"
     ]
   }
 }
