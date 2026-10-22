@@ -170,7 +170,14 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
   - Las 15 recetas nuevas corren por stdio contra Ronin de Prueba. Los XLSX abren en openpyxl y
     LibreOffice.
   - `pnpm test:integracion` sigue pasando.
-- **Pendiente:** correr los comandos en Claude Code en la Mac de Santi.
+- **Verificado en la Mac de Santi (2026-10-22):** los ocho comandos corren en Ronin de Prueba; la
+  barra de estado muestra `GHL: prueba (prueba)`; `/exportar` crea el XLSX; `/limpieza` simuló
+  20 acciones, pidió permiso y, tras el sí, las ejecutó (15 `posible_duplicado`, 4
+  `sin_clasificar`, responsable asignado; verificado por ID desde la nube). La auditoría pasó de
+  64 a 88. `logs/acciones-ghl.jsonl` distingue simulado y real.
+- **Aprendido:** en la primera corrida, tras el sí, Claude no ejecutó; la skill ahora pide
+  ejecutar en el mismo turno con `simular: false`.
+- **Pendiente:** confirmar que el XLSX abre en Excel en la Mac.
 - **Siguiente paso:** [TE ESPERA] Santi, en `~/ghl-claude-hub`: `git pull`, `pnpm install`,
   `pnpm build`, abrir `claude` y probar `/subcuenta prueba`, `/briefing`, `/pipeline`,
   `/auditoria`, `/seguimiento`, `/exportar contactos con el tag es_prueba`,
