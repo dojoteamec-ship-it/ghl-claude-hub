@@ -64,15 +64,23 @@ Estados posibles: `pendiente`, `en curso`, `esperando a Santi`, `hecha`.
     `execute_operation("search-contacts-advanced")` devuelve 5 contactos.
   - Los argumentos del MCP van en camelCase: `operationId`, `params`, `locationId`, `dryRun`.
   - `list_locations` con PIT sigue respondiendo "dependencies are not configured" (500).
-- **Verificado:** PIT válido, con scopes de locations, contactos, oportunidades, calendarios y
-  usuarios. 4 de las 5 pruebas de lectura pasan por MCP; `list_locations` falla solo con PIT.
+- **Hecho (2026-10-22, OAuth en la Mac de Santi):**
+  - `.mcp.json` declara `ghl-oficial`. En `.claude/settings.json`, `execute_operation` está en
+    `ask` y `search_operations`, `describe_operation` y `list_locations` en `allow`.
+  - Santi completó el OAuth con `/mcp` y quedó conectado.
+  - `list_locations` devuelve 2 subcuentas: Ronin de Prueba (94 contactos) y Tomás Figueroa
+    RoninX (22 contactos).
+  - `search-contacts-advanced` lee 1 contacto reciente en cada subcuenta (200).
+  - `search_operations("list pipelines")` y `execute_operation("get-pipelines")` en Ronin de
+    Prueba devuelven 2 pipelines (200).
+- **Verificado:** las 5 pruebas de lectura pasan. **Camino A**: una sola conexión OAuth llega a
+  varias subcuentas con `locationId` (registrado en `docs/DECISIONES.md`).
 - **Pendiente:**
-  - OAuth de `ghl-oficial` en la Mac de Santi para probar `list_locations` y decidir camino A o
-    B con evidencia (con PIT todo apunta al camino B).
-  - Prueba de escritura con `dryRun: true` y regla `ask` para `execute_operation`.
-  - `docs/RECETAS-GHL.md` y registro del camino en `docs/DECISIONES.md`.
-- **Siguiente paso:** [TE ESPERA] Santi corre `/mcp` en Claude Code y completa el OAuth de
-  `ghl-oficial`; luego se repite `list_locations` y se decide el camino.
+  - Una escritura con `execute_operation` y `dryRun: true` en Ronin de Prueba, para comprobar
+    que Claude Code pide confirmación.
+  - `docs/RECETAS-GHL.md` con al menos 10 pedidos probados.
+  - El OAuth solo vive en la Mac de Santi; las sesiones en la nube no lo tienen.
+- **Siguiente paso:** prueba de escritura simulada y recetas en la Mac de Santi; luego Etapa 3.
 
 ## Etapa 3 · Núcleo `ghl-core`
 
